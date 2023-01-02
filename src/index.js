@@ -1,20 +1,28 @@
 let express  = require("express");
 let app      = express();
-
-let bodyParser = require("body-parser");
-
 let {PORT} = require("./config/serverConfig.js");
 
+// let bodyParser = require("body-parser");
+
 let {sendBasicEmail} = require("./service/mailService.js");
-const { getMaxListeners } = require("process");
+let cron = require('node-cron');
 
 app.listen(PORT, () => {
     console.log("server started on port ", PORT);
 
-    sendBasicEmail(
-        "satyajitpatel770001@gmail.com",
-        "satyajitpatel45@gmail.com",
-        "demo",
-        "hi there"
-    );
+
+    cron.schedule('*/2 * * * *', () => {
+        console.log('running a task every two minutes');
+
+        
+        sendBasicEmail(
+            "satyajitpatel770001@gmail.com",
+            "satyajitpatel45@gmail.com",
+            "demo",
+            "hi there"
+        );
+
+    });
+
+
 }); 
